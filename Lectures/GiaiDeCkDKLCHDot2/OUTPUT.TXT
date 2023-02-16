@@ -1,0 +1,4 @@
+01325000|Nhap Mon Lap Trinh|10.00|10.00|+0.15
+00000000|Thi Rot Thi|9.00|9.00
+19006067|Nha Xe Phuong Trang|9.00|8.00|+0.10
+19006772|Nha Xe Anh Quoc Limousine|7.00|9.00

@@ -1,0 +1,5 @@
+19006067|Nha Xe Phuong Trang|9|8|+0.1
+19006772|Nha Xe Anh Quoc Limousine|7|9
+19006968|Nha Xe Toan Thang|4|7|-0.2
+01325000|Nhap Mon Lap Trinh|10|10|+0.15
+00000000|Thi Rot Thi|9|9
