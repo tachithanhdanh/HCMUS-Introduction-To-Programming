@@ -1,0 +1,234 @@
+\documentclass[a4paper, 12pt, titlepage]{article}
+\title{Bài tập tuần 2}
+\author{Tạ Chí Thành Danh - 22120049}
+\usepackage[utf8]{vietnam} % Unicode tiếng Việt
+\usepackage{amsmath}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry} % Định dạng khoảng cách lề giấy
+%\usepackage[12pt]{extsizes} % https://tex.stackexchange.com/questions/5339/how-to-specify-font-size-less-than-10pt-or-more-than-12pt'
+\usepackage[fontsize=13pt]{scrextend} % Chỉnh cỡ chữ thành 13 như mặc định bên Word
+\usepackage{tikz} 
+\usetikzlibrary{shapes.geometric, arrows, shapes.misc}
+% https://www.overleaf.com/learn/latex/LaTeX_Graphics_using_TikZ%3A_A_Tutorial_for_Beginners_(Part_3)%E2%80%94Creating_Flowcharts
+
+\tikzstyle{start} = [circle, minimum size=1cm, draw=black, fill= yellow!30]
+\tikzstyle{input} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=blue!30]
+% \tikzstyle{output} = [draw, (0,0) -- (0,3) -- (4,3) -- (4,2) -- (3,0) -- cycle, fill=red!30]
+% https://tex.stackexchange.com/questions/223479/cut-corners-off-rectangle-in-tikz
+\tikzstyle{output} = [draw=red, minimum width=2.5cm, minimum height=1.5cm,chamfered rectangle,fill=red!30]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=orange!30]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black, fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+\tikzstyle{end} = [circle, minimum size=0.5cm, draw, fill=yellow!30]
+\newcommand{\In}{\textbf{Nhập }}
+\newcommand{\X}{\textbf{Xuất }}
+\newcommand{\If}{\textbf{Nếu }}
+\newcommand{\Then}{\textbf{thì }}
+\newcommand{\IfNot}{\textbf{nếu không thì }}
+\newcommand{\x}{\textbf{xuất }}
+\newcommand{\Loop}{\textbf{Lặp }}
+
+\begin{document}
+	\maketitle
+	\section{Bài 2.3}
+	\begin{center}
+	\begin{tikzpicture}[node distance=2cm]
+		\node[start] (Start) { };
+		\node[input, below of = Start] (Input) {số nguyên a, b và phép tính op};
+		\node[decision, below of = Input] (dec1) { op = + };
+		\node[decision, below of = dec1, yshift = -1cm] (dec2) { op = - };
+		\node[decision, below of = dec2, yshift = -1cm] (dec3) { op = $\ast$ };
+		\node[decision, below of = dec3, yshift = -1cm] (dec4) { op = / };
+		\node[output, right of = dec1, xshift = 5cm] (out1) {$a + b$};
+		\node[output, right of = dec2, xshift = 5cm] (out2) {$a - b$};
+		\node[output, right of = dec3, xshift = 5cm] (out3) {$a \ast b$};
+		\node[output, right of = dec4, xshift = 5cm] (out4) {$a / b$};
+		\node[start, right of = out1, xshift = 2cm] (end1) { };
+		\node[end, right of = out1, xshift = 2cm] (end2) { };
+		\draw[arrow] (Start) -- (Input);
+		\draw[arrow] (Input) -- (dec1);
+		\draw[arrow] (dec1) -- node[anchor=east]{Sai} (dec2);
+		\draw[arrow] (dec2) -- node[anchor=east]{Sai} (dec3);
+		\draw[arrow] (dec3) -- node[anchor=east]{Sai} (dec4);
+		\draw[arrow] (dec1) -- node[anchor=south]{Đúng} (out1);
+		\draw[arrow] (dec2) -- node[anchor=south]{Đúng} (out2);
+		\draw[arrow] (dec3) -- node[anchor=south]{Đúng} (out3);
+		\draw[arrow] (dec4) -- node[anchor=south]{Đúng} (out4);
+		\draw[arrow] (out1) -- (end1);
+		\draw[arrow] (out2) -| (end1);
+		\draw[arrow] (out3) -| (end1);
+		\draw[arrow] (out4) -| (end1);
+		% \draw (0,0) -- (0,2) -- (3,2) -- (3,1) -- (2,0) -- cycle;
+	\end{tikzpicture}
+	\end{center}
+	% https://tex.stackexchange.com/questions/95125/shorthand-for-empty-line-or-indent
+	\textbf{B1:} \In \verb|a|, \verb|b| và phép tính \verb|op| \\
+	\textbf{B2:} \If \verb|op = +| \\ \indent \quad \x $a + b$ \\
+	\textbf{B3:} \If \verb|op = -| \\ \indent \quad \x $a - b$ \\
+	\textbf{B4:} \If \verb|op = *| \\ \indent \quad \x $a \ast b$ \\
+	\textbf{B5:} \If \verb|op = /| \\ \indent \quad \x $a / b$ \\
+	\newpage
+	\section{Bài 2.4}
+		\begin{tikzpicture}[node distance=2cm]
+			\node[start] (Start) { };
+			\node[input, below of = Start] (Input) {Điểm văn V, điểm toán T, điểm ngoại ngữ NN};
+			\node[process, below of = Input] (tinhtoan) {Điểm trung bình $\mathrm{DTB} = \dfrac{\mathrm{V} \cdot 2 + \mathrm{T} \cdot 2 + \mathrm{NN}}{5}$};
+			\node[output, below of = tinhtoan] (out0) {DTB};
+			\node[decision, below of = out0,yshift = -1cm] (dec1) { DTB >= $8.0$};
+			\node[decision, below of = dec1, yshift = -2.5cm] (dec2) { DTB >= $6.5$ };
+			\node[decision, below of = dec2, yshift = -2.5cm] (dec3) { DTB >= $5.0$ };
+			\node[output, right of = dec1, xshift = 3.3cm] (out1) {Giỏi};
+			\node[output, right of = dec2, xshift = 3.3cm] (out2) {Khá};
+			\node[output, right of = dec3, xshift = 3.3cm] (out3) {Trung bình};
+			\node[output, below of = dec3, xshift = 5.3cm, yshift = -0.5cm] (out4) {Yếu};
+			\draw[arrow] (dec1) -- node[anchor=east]{Sai} (dec2);
+			\draw[arrow] (dec2) -- node[anchor=east]{Sai} (dec3);
+			%\draw[arrow] (dec3) -- node[anchor=east]{Sai} (dec4);
+			\draw[arrow] (dec1) -- node[anchor=south]{Đúng} (out1);
+			\draw[arrow] (dec2) -- node[anchor=south]{Đúng} (out2);
+			\draw[arrow] (dec3) -- node[anchor=south]{Đúng} (out3);
+			\draw[arrow] (dec3) -- node[anchor=south]{Sai} (out4);
+			\node[start, right of = out2, xshift = 2cm] (end1) { };
+			\node[end, right of = out2, xshift = 2cm] (end2) { };
+			\draw[arrow] (Start) -- (Input);
+			\draw[arrow] (Input) -- (tinhtoan);
+			\draw[arrow] (tinhtoan) -- (out0);
+			\draw[arrow] (out0) -- (dec1);
+			\draw[arrow] (out1) -| (end1);
+			\draw[arrow] (out2) -- (end1);
+			\draw[arrow] (out3) -| (end1);
+			\draw[arrow] (out4) -| (end1);
+			%\node[output, below of tinhtoan] (out1) {DTB};
+			% \draw (0,0) -- (0,2) -- (3,2) -- (3,1) -- (2,0) -- cycle;
+		\end{tikzpicture}
+	\newpage
+	\noindent
+	\textbf{B1:} \In điểm văn \verb|V|, điểm toán \verb|T| và điểm ngoại ngữ \verb|NN| \\
+	\textbf{B2:} Điểm trung bình \verb|DTB| = (\verb|V| $\ast$ 2 + \verb|T| $\ast$ 2 + \verb|NN|) / 5 \\
+	\textbf{B3:} \X DTB \\
+	\textbf{B4:} \If \verb|DTB >= 8.0| \\ \indent \quad \x ``Giỏi'', kết thúc chương trình \\
+	\textbf{B5:} \If \verb|DTB >= 6.5| \\ \indent \quad \x ``Khá'', kết thúc chương trình \\
+	\textbf{B6:} \If \verb|DTB >= 5.0| \\ \indent \quad \x ``Trung bình'', kết thúc chương trình \\
+	\textbf{B7:} \X ``Yếu'' 
+	%\newpage
+	\section{Bài 2.5}
+	\begin{tikzpicture}[node distance=2cm]
+		\node[start] (Start) { };
+		\node[input, below of = Start] (Input) {Tháng M, Năm Y};
+		\node[decision, below of = Input,yshift = -1cm] (dec1) { M = 2 };
+		\node[decision, right of = dec1, xshift = 2.3cm] (dec11) { Y \% 100 = 0};
+		\node[decision, right of = dec11, xshift = 2.3cm] (dec111) { Y \% 400 = 0};
+		\node[output, right of = dec111, xshift = 2.3cm] (out1) {29};
+		\node[decision, below of = dec111, yshift = -2cm] (dec112) {Y \% 4 = 0};
+		\node[output, right of = dec112, xshift = 2.4cm] (out2) {28};
+		\node[decision, below of = dec1, yshift = -2cm] (dec12) { M <= 7 };
+		\node[decision, below of = dec12, yshift = -2.5cm] (dec121) { M \% 2 = 1};
+		\node[output, below of = dec121, yshift = -2cm] (out3) {31};
+		\node[decision, right of = dec121, xshift = 6.8cm] (dec122) { M \% 2 = 0};
+		\node[output, below of = dec122, yshift = -7cm] (out4) {30};
+		\draw[arrow] (Start) -- (Input);
+		\draw[arrow] (Input) -- (dec1);
+		\draw[arrow] (dec1) -- node[anchor=south]{Đúng} (dec11);
+		\draw[arrow] (dec1) -- node[anchor=east]{Sai} (dec12);
+		\draw[arrow] (dec11) -- node[anchor=south]{Đúng} (dec111);
+		\draw[arrow] (dec11) -- node[anchor=east]{Sai} (dec112);
+		\draw[arrow] (dec111) -- node[anchor=south]{Đúng} (out1);
+		\draw[arrow] (dec112) -- node[anchor=south]{Đúng} (out1);
+		\draw[arrow] (dec112) -- node[anchor=south]{Sai} (out2);	
+		\draw[arrow] (dec12) -- node[anchor=east]{Đúng} (dec121);
+		\draw[arrow] (dec12) -- node[anchor=east]{Sai} (dec122);
+		\draw[arrow] (dec121) -- nnode[anchor=east]{Đúng} (out3);
+		\draw[arrow] (dec121) -- nnode[anchor=east]{Sai} (out4);
+		\draw[arrow] (dec122) -- nnode[anchor=east]{Đúng} (out3);
+		\draw[arrow] (dec122) -- nnode[anchor=east]{Sai} (out4);
+		\node[start, below of = out2, , yshift = -3 cm, xshift = 2cm] (end1) { };
+		\node[end, below of = out2, yshift = -3 cm, xshift = 2cm] (end2) { };
+		\draw[arrow] (out1) -| (end1);
+		\draw[arrow] (out2) -- (end1);
+		\draw[arrow] (out3) -- (end1);
+		\draw[arrow] (out4) -- (end1);
+	\end{tikzpicture} 
+	\newpage
+	\noindent
+	\textbf{B1:} \In tháng M, năm Y \\
+	\textbf{B2:} Số ngày D \\
+	\textbf{B3:} \If M = 2 \Then chuyển sang \textbf{B4}, \IfNot chuyển sang \textbf{B7} \\
+	\textbf{B4:} \If Y \% 100 = 0 \Then chuyển sang \textbf{B5}, \IfNot chuyển sang \textbf{B6} \\
+	\textbf{B5:} \If Y \% 400  \Then chuyển sang \textbf{B11}, \IfNot chuyển sang \textbf{B10} \\
+	\textbf{B6:} \If Y \% 4 = 0 \Then chuyển sang \textbf{B11}, \IfNot chuyển sang \textbf{B10} \\
+	\textbf{B7:} \If $\textrm{M} \leq 7$ thì chuyển sang \textbf{B8}, \IfNot chuyển sang \textbf{B9} \\
+	\textbf{B8:} \If M \% 2 = 1 \Then chuyển sang \textbf{B13}, \IfNot chuyển sang \textbf{B12} \\
+	\textbf{B9:} \If M \% 2 = 0 \Then chuyển sang \textbf{B13}, \IfNot chuyển sang \textbf{B12} \\
+	\textbf{B10:} D = 28, chuyển sang \textbf{B14} \\
+	\textbf{B11:} D = 29, chuyển sang \textbf{B14} \\
+	\textbf{B12:} D = 30, chuyển sang \textbf{B14} \\
+	\textbf{B13:} D = 31, chuyển sang \textbf{B14} \\
+	\textbf{B14:} \X D
+	\newpage
+	\section{Bài 2.6}
+	\begin{tikzpicture}[node distance=2cm]
+	\node[start] (Start) { };
+	\node[input, below of = Start] (Input) {Số nguyên x, n};
+	\node[process, below of = Input] (tinhtoan) {Số nguyên ans = 1};
+	\node[decision, below of = tinhtoan,yshift = -1cm] (dec1) { n = 0 };
+	\node[process, below of = dec1, yshift = -1cm, xshift = 5cm, text width=3.5cm,align=center] (tinhtoan1) { ans = ans $\ast$ x \\ n = n - 1 };
+	\node[output, right of = dec1, xshift = 3.3cm] (out1) {ans};
+	\node[start, right of = out1, xshift = 2cm] (end1) { };
+	\node[end, right of = out1, xshift = 2cm] (end2) { };
+	\draw[arrow] (Start) -- (Input);
+	\draw[arrow] (Input) -- (tinhtoan);
+	\draw[arrow] (tinhtoan) -- (dec1);
+	\draw[arrow] (dec1) -- node[anchor=east]{Sai}(tinhtoan1);
+	\draw[arrow] (dec1) -- node[anchor=south]{Đúng}(out1);
+	\draw[arrow] (out1) -- (end1);
+	\draw[arrow] (tinhtoan1) -| (dec1);
+	\end{tikzpicture}
+	\\
+	\textbf{B1:} \In số nguyên $x$, $n$ \\
+	\textbf{B2:} số nguyên ans = $1$ \\
+	\textbf{B3:} \Loop $n \neq 0$ \\ \indent \quad ans = ans $\ast$ x \\ \indent \quad n = n - 1 \\
+	\textbf{B4:} \X ans
+	\newpage
+	\section{Bài 2.7}
+	\begin{tikzpicture}[node distance=2cm]
+		\node[start] (Start) { };
+		\node[input, below of = Start] (Input) {Số nguyên x, n};
+		\node[process, below of = Input] (tinhtoan) {Số nguyên S = 0, Tich = x};
+		\node[decision, below of = tinhtoan,yshift = -1cm] (dec1) { n = 0 };
+		\node[process, below of = dec1, yshift = -1cm, xshift = 5cm, text width=3.5cm,align=center] (tinhtoan1) { S = S + Tich \\ Tich = Tich $\ast$ x \\ n = n - 1 };
+		\node[output, right of = dec1, xshift = 3.3cm] (out1) {S};
+		\node[start, right of = out1, xshift = 2cm] (end1) { };
+		\node[end, right of = out1, xshift = 2cm] (end2) { };
+		\draw[arrow] (Start) -- (Input);
+		\draw[arrow] (Input) -- (tinhtoan);
+		\draw[arrow] (tinhtoan) -- (dec1);
+		\draw[arrow] (dec1) -- node[anchor=east]{Sai}(tinhtoan1);
+		\draw[arrow] (dec1) -- node[anchor=south]{Đúng}(out1);
+		\draw[arrow] (out1) -- (end1);
+		\draw[arrow] (tinhtoan1) -| (dec1);
+	\end{tikzpicture}
+	\\
+	\textbf{B1:} \In số nguyên $x$, $n$ \\
+	\textbf{B2:} số nguyên S = $0$, Tich = x \\
+	\textbf{B3:} \Loop $n \neq 0$ \\ \indent \quad S = S + Tich \\ \indent \quad Tich = Tich $\ast$ x \\ \indent \quad n = n - 1 \\
+	\textbf{B4:} \X ans
+	\section{Bài 2.8}
+	\begin{tikzpicture}[node distance=2cm]
+		\node[start] (Start) { };
+		\node[input, below of = Start] (Input) {Số tiền ban đầu S, số năm gửi N, lãi suất năm L};
+		\node[decision, below of = Input,yshift = -1cm] (dec1) { N = 0 };
+		\node[process, below of = dec1, yshift = -1cm, xshift = 5cm, text width=5cm,align=center] (tinhtoan1) { S = S $\ast$ (1 + L) \\ N = N - 1 };
+		\node[output, right of = dec1, xshift = 3.3cm] (out1) {S};
+		\node[start, right of = out1, xshift = 2cm] (end1) { };
+		\node[end, right of = out1, xshift = 2cm] (end2) { };
+		\draw[arrow] (Start) -- (Input);
+		\draw[arrow] (Input) -- (dec1);
+		\draw[arrow] (dec1) -- node[anchor=east]{Sai}(tinhtoan1);
+		\draw[arrow] (dec1) -- node[anchor=south]{Đúng}(out1);
+		\draw[arrow] (out1) -- (end1);
+		\draw[arrow] (tinhtoan1) -| (dec1);
+	\end{tikzpicture}
+	\newline \newline
+	\textbf{B1:} \In số tiền ban đầu S, số năm gửi N, lãi suất năm L \\
+	\textbf{B2:} \Loop $N \neq 0$ \\ \indent \quad S = S $\ast$ (1 + L) \\ \indent \quad N= N - 1 \\
+	\textbf{B3:} \X S
+\end{document}
